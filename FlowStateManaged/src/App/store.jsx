@@ -34,15 +34,19 @@ const useStore = create((set, get) => ({
       edges: applyEdgeChanges(changes, get().edges),
     });
   },
+  levelNodeTypes: ["mindmap", "mindmap", "mindmap", "mindmap"],
+  currentLevel: 0,
   addChildNode: (parentNode, position) => {
+    const currentLevel = parentNode.level !== undefined ? parentNode.level + 1 : 1; // Calculate next level
+    const nodeType = get().levelNodeTypes[currentLevel % get().levelNodeTypes.length];
+
     const newNode = {
       id: nanoid(),
-      id1: "1",
-      id2: "1",
-      type: "mindmap",
-      data: { label: "New Node" },
+      type: nodeType, // Assign correct type based on level
+      data: { label: `New Node (Level ${currentLevel})` }, // Update label with current level
       position,
       parentNode: parentNode.id,
+      level: currentLevel, // Assign level to the new node
     };
 
     const newEdge = {
@@ -51,11 +55,13 @@ const useStore = create((set, get) => ({
       target: newNode.id,
     };
 
-    set({
-      nodes: [...get().nodes, newNode],
-      edges: [...get().edges, newEdge],
-    });
+    set((state) => ({
+      nodes: [...state.nodes, newNode],
+      edges: [...state.edges, newEdge],
+    }));
   },
+
+
 }));
 
 export default useStore;

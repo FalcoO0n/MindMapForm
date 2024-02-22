@@ -1,6 +1,7 @@
 import React, { useRef, useCallback } from "react";
 import ReactFlow, {
   Controls,
+  Background,
   Panel,
   ConnectionLineType,
   useStoreApi,
@@ -27,7 +28,7 @@ const selector = (state) => ({
 const nodeOrigin = [0.5, 0.5];
 const nodeTypes = { mindmap: MindMapNode };
 const edgeTypes = { mindmap: MindMapEdge };
-const connectionLineStyle = { stroke: "#F6AD55", strokeWidth: 3 };
+const connectionLineStyle = { stroke: "#c1c7cc", strokeWidth: 3 };
 const defaultEdgeOptions = { style: connectionLineStyle, type: "mindmap" };
 
 function Flow() {
@@ -115,13 +116,15 @@ function Flow() {
       edgeTypes={edgeTypes}
       onConnectStart={onConnectStart}
       onConnectEnd={onConnectEnd}
+      
       fitView
     >
       <Controls showInteractive={false} />
+      <Background color="#5f2dff" variant="dots" />
       <MiniMap
         nodeColor={(node) => {
           if (node.type === "mindmap") {
-            return "#FFCC00";
+            return "#e5ecf2";
           }
           return "#ddd";
         }}

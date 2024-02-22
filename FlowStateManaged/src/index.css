@@ -9,9 +9,24 @@ body {
   }
 
   .react-flow__node-mindmap {
-    background: rgb(243, 215, 58);
-    border-radius: 2px;
-    border: 1px solid transparent;
-    padding: 2px 5px;
+    background: #b3b9bd;
+    border-radius: 5px;
+    /* border: 1px solid transparent; */
+    /* padding: 2px 5px;s */
     font-weight: 700;
   }
+  /* App.css */
+
+.react-flow__edge-path {
+  stroke-dasharray: 20, 10;
+  animation: dash 3s linear;
+}
+
+@keyframes dash {
+  from {
+    stroke-dashoffset: 0;
+  }
+  to {
+    stroke-dashoffset: -100;
+  }
+}
