@@ -61,6 +61,27 @@ const useStore = create((set, get) => ({
     }));
   },
 
+  updateNodeLabel: (nodeId, label) => {
+    set({
+      nodes: get().nodes.map((node) => {
+        if (node.id === nodeId) {
+          node.data = {...node.data, label};
+        }
+        return node;
+      })
+    })
+  },
+
+  saveState: () => {
+    const state = get();
+    localStorage.setItem("mindmapState", JSON.stringify(state));
+  },
+  restoreState: () => {
+    const savedState = localStorage.getItem("mindmapState");
+    if (savedState){
+      set(JSON.parse(savedState));
+    }
+  }
 
 }));
 

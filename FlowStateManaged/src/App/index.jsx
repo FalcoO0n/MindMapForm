@@ -36,6 +36,7 @@ function Flow() {
 
   const store = useStoreApi(); // we need to use the store api to access the state
   const { screenToFlowPosition } = useReactFlow();
+  const { saveState, restoreState } = useStore();
 
   const { nodes, edges, onNodesChange, onEdgesChange, addChildNode } = useStore(selector);
 
@@ -58,8 +59,8 @@ function Flow() {
     });
 
     return {
-      x: panePosition.x - parentNode.positionAbsolute.x + parentNode.width ,
-      y: panePosition.y - parentNode.positionAbsolute.y + parentNode.height ,
+      x: panePosition.x - parentNode.positionAbsolute.x + parentNode.width,
+      y: panePosition.y - parentNode.positionAbsolute.y + parentNode.height,
     };
   };
 
@@ -74,14 +75,13 @@ function Flow() {
       const { nodeInternals } = store.getState();
       const targetIsPane = event.target.classList.contains("react-flow__pane");
 
-      console.log(nodeInternals, "nodeInternals------------------")
+      console.log(nodeInternals, "nodeInternals------------------");
 
       // const firstEntryKey = Array.from(nodeInternals.keys())[0];
       // console.log(firstEntryKey, "firstEntryKey------------------")
 
+      console.log(Array.from(nodeInternals.values())[2], "2nd Entry------------------");
 
-      console.log(Array.from(nodeInternals.values())[2], "2nd Entry------------------")
-      
       // nodeInternals.forEach((value, key) => {
       //   console.log(key,  "key------------------")
       //   console.log(value, "value------------------")
@@ -103,34 +103,81 @@ function Flow() {
     [getChildNodePosition]
   );
   return (
-    <ReactFlow
-      nodes={nodes}
-      edges={edges}
-      onNodesChange={onNodesChange}
-      onEdgesChange={onEdgesChange}
-      nodeOrigin={nodeOrigin}
-      defaultEdgeOptions={defaultEdgeOptions}
-      connectionLineStyle={connectionLineStyle}
-      connectionLineType={ConnectionLineType.Straight}
-      nodeTypes={nodeTypes}
-      edgeTypes={edgeTypes}
-      onConnectStart={onConnectStart}
-      onConnectEnd={onConnectEnd}
-      
-      fitView
-    >
-      <Controls showInteractive={false} />
-      <Background color="#5f2dff" variant="dots" />
-      <MiniMap
-        nodeColor={(node) => {
-          if (node.type === "mindmap") {
-            return "#e5ecf2";
-          }
-          return "#ddd";
-        }}
-      />
-      <Panel position="top-left">React Mind Map Form</Panel>
-    </ReactFlow>
+    <>
+      <ReactFlow
+        nodes={nodes}
+        edges={edges}
+        onNodesChange={onNodesChange}
+        onEdgesChange={onEdgesChange}
+        nodeOrigin={nodeOrigin}
+        defaultEdgeOptions={defaultEdgeOptions}
+        connectionLineStyle={connectionLineStyle}
+        connectionLineType={ConnectionLineType.Straight}
+        nodeTypes={nodeTypes}
+        edgeTypes={edgeTypes}
+        onConnectStart={onConnectStart}
+        onConnectEnd={onConnectEnd}
+        fitView
+      >
+        <Controls showInteractive={false} />
+        <Background color="#5f2dff" variant="dots" />
+        <MiniMap
+          nodeColor={(node) => {
+            if (node.type === "mindmap") {
+              return "#e5ecf2";
+            }
+            return "#ddd";
+          }}
+        />
+        <div
+          style={{
+            display: "flex",
+            paddingTop: "13px",
+            paddingBottom: "13px",
+            // backgroundColor: "rgb(126, 157, 178)",
+            justifyContent: "flex-end",
+            gap: "20px",
+            paddingRight: "30px",
+          }}
+        >
+          <Panel position="top-left" style={{fontFamily: "fantasy", fontWeight: "500", color: "#475965", fontSize: "20px", background: "white"}}>React Mind Map Form</Panel>
+          <button
+            onClick={saveState}
+            style={{
+              backgroundColor: "#fff",
+              boxShadow:
+                "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px",
+              borderRadius: "3px",
+              border: "none",
+              padding: "5px",
+              // marginTop: "10px",
+              width: "80px",
+              zIndex: "4",
+              cursor: "pointer",
+            }}
+          >
+            Save
+          </button>
+          <button
+            onClick={restoreState}
+            style={{
+              backgroundColor: "#fff",
+              boxShadow:
+                "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px",
+              borderRadius: "3px",
+              border: "none",
+              padding: "5px",
+              // marginTop: "10px",
+              width: "80px",
+              zIndex: "4",
+              cursor: "pointer",
+            }}
+          >
+            Restore
+          </button>
+        </div>
+      </ReactFlow>
+    </>
   );
 }
 

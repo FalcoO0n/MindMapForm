@@ -1,5 +1,6 @@
 import { Handle, Position } from "reactflow";
 import { useState } from "react";
+import useStore from "../store";
 
 function Modal({ isOpen, onClose, children }) {
   if (!isOpen) {
@@ -52,6 +53,7 @@ function Modal({ isOpen, onClose, children }) {
 
 function MindMapNode({ id, data }) {
   const [isModalOpen, setModalOpen] = useState(false);
+  const updateNodeLabel = useStore((state) => state.updateNodeLabel);
 
   const openModal = () => {
     setModalOpen(true);
@@ -68,13 +70,31 @@ function MindMapNode({ id, data }) {
         justifyContent: "center",
         alignItems: "center",
         backgroundColor: "#abd9f0",
-        boxShadow: "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px",        minHeight: "100px",
+        boxShadow: "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px",
+        minHeight: "100px",
         borderRadius: "5px",
         // marginX: "10px",
         padding: "10px",
       }}
     >
-      <input defaultValue={data.label} />
+      <div className="inputWrapper">
+        <div className="dragHandle">
+          {/* icon taken from grommet https://icons.grommet.io */}
+          <svg viewBox="0 0 24 24">
+            <path
+              fill="#333"
+              stroke="#333"
+              strokeWidth="1"
+              d="M15 5h2V3h-2v2zM7 5h2V3H7v2zm8 8h2v-2h-2v2zm-8 0h2v-2H7v2zm8 8h2v-2h-2v2zm-8 0h2v-2H7v2z"
+            />
+          </svg>
+        </div>
+        <input
+          value={data.label}
+          onChange={(evt) => updateNodeLabel(id, evt.target.value)}
+          className="input"
+        />
+      </div>
       <Handle type="target" position={Position.Left} />
       <Handle type="source" position={Position.Right} />
       <button
@@ -87,6 +107,8 @@ function MindMapNode({ id, data }) {
           padding: "5px",
           marginTop: "10px",
           maxWidth: "100px",
+          zIndex: "3",
+          cursor: "pointer",
         }}
         onClick={openModal}
       >
