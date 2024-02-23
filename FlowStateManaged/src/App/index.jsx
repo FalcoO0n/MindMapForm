@@ -117,6 +117,8 @@ function Flow() {
         edgeTypes={edgeTypes}
         onConnectStart={onConnectStart}
         onConnectEnd={onConnectEnd}
+        minZoom={0.1}
+      maxZoom={2}
         fitView
       >
         <Controls showInteractive={false} />
