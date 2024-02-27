@@ -41,7 +41,7 @@ function Flow() {
   const { nodes, edges, onNodesChange, onEdgesChange, addChildNode } = useStore(selector);
 
   const connectingNodeId = useRef(null);
-
+  const proOptions = { hideAttribution: true };
   const getChildNodePosition = (event, parentNode) => {
     const { domNode } = store.getState();
     // console.log(domNode, "domNode------------------")
@@ -115,10 +115,11 @@ function Flow() {
         connectionLineType={ConnectionLineType.Straight}
         nodeTypes={nodeTypes}
         edgeTypes={edgeTypes}
+        proOptions={proOptions}
         onConnectStart={onConnectStart}
         onConnectEnd={onConnectEnd}
         minZoom={0.1}
-      maxZoom={2}
+        maxZoom={2}
         fitView
       >
         <Controls showInteractive={false} />
@@ -126,7 +127,7 @@ function Flow() {
         <MiniMap
           nodeColor={(node) => {
             if (node.type === "mindmap") {
-              return "#e5ecf2";
+              return "#dfdfff";
             }
             return "#ddd";
           }}
